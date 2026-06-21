@@ -1,0 +1,16 @@
+{
+  "name": "firelabs-core",
+  "version": "0.1.0",
+  "description": "Shared FireLabs device core: captive-portal onboarding wizard, wifi provisioning, config storage, OTA recovery, and the hold-to-reset button. One consistent setup experience across ESP8266 and ESP32 devices.",
+  "keywords": "firelabs, captive-portal, onboarding, provisioning, esp8266, esp32",
+  "license": "AGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FireLabsCA/firelabs-core"
+  },
+  "frameworks": "arduino",
+  "platforms": ["espressif8266", "espressif32"],
+  "dependencies": {
+    "bblanchon/ArduinoJson": "^7.2.0"
+  }
+}
