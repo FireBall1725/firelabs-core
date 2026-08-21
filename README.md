@@ -41,6 +41,12 @@ void loop() { core.loop(); }
 not reach its wifi reboots after the window to retry instead of camping in setup
 forever. Pass `0` for fresh first-boot setup, where a human is present.
 
+## Support
+
+Questions, updates, and works in progress: [FireBall Codes on Discord](https://discord.gg/QpV82CFfVD).
+
+If this saved you some time, you can [buy me a sushi roll](https://ko-fi.com/fireball1725).
+
 ## License
 
 AGPL-3.0. Author: FireBall1725.
