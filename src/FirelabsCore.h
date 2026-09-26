@@ -14,6 +14,8 @@ public:
   // Set before begin(). The S31 uses "FireLabs S31"/"fl"; the WX "FireLabs WX"/"fl-wx".
   String apPrefix = "FireLabs";
   String hostPrefix = "fl";
+  // What the setup wizard calls the device ("Let's set up your plug").
+  String deviceNoun = "plug";
 
   // Persisted identity (wifi + friendly name), stored in LittleFS.
   String wifiSsid;

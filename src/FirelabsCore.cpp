@@ -3,6 +3,9 @@
 #include "FirelabsLogo.h"
 
 #include <DNSServer.h>
+#if defined(ESP32)
+#include <esp_mac.h>
+#endif
 #include <LittleFS.h>
 #include <Update.h>
 #include <ArduinoJson.h>
@@ -26,8 +29,15 @@ static FirelabsCore* self = nullptr;
 // ---------- identity ----------
 
 String FirelabsCore::macSuffix() {
-  uint8_t mac[6];
+  uint8_t mac[6] = {0};
+#if defined(ESP32)
+  // WiFi.macAddress() leaves the buffer untouched until the wifi driver is up on
+  // Arduino core 3.x, so an early call returned stack garbage (and a different
+  // SSID each time). The eFuse MAC is valid from boot.
+  esp_read_mac(mac, ESP_MAC_WIFI_STA);
+#else
   WiFi.macAddress(mac);
+#endif
   char buf[7];
   snprintf(buf, sizeof(buf), "%02X%02X%02X", mac[3], mac[4], mac[5]);
   return String(buf);
@@ -143,7 +153,18 @@ void FirelabsCore::buildScanCache_() {
 // ---------- setup portal ----------
 
 void FirelabsCore::registerRoutes_() {
-  auto servePage = []() { server.send_P(200, "text/html", FL_SETUP_HTML); };
+  auto servePage = []() {
+#ifdef FL_DEBUG_PORTAL
+    Serial.printf("[fl-core] http %s%s\n", server.hostHeader().c_str(), server.uri().c_str());
+#endif
+    if (self->deviceNoun == "plug") {
+      server.send_P(200, "text/html", FL_SETUP_HTML);
+      return;
+    }
+    String html = FPSTR(FL_SETUP_HTML);
+    html.replace(" plug", " " + self->deviceNoun);
+    server.send(200, "text/html", html);
+  };
   server.on("/", HTTP_GET, servePage);
   server.onNotFound(servePage);  // captive-portal catch-all
 

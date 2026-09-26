@@ -14,7 +14,7 @@ then calls `begin()`, `connect()`, and `startSetupPortal()`.
 PlatformIO, via `lib_deps`:
 
 ```ini
-lib_deps = https://github.com/FireLabsCA/firelabs-core.git
+lib_deps = https://github.com/FireBall1725/firelabs-core.git
 ```
 
 Minimal sketch:
